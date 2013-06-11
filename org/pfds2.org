@@ -1,0 +1,118 @@
+#+TITLE: Chapter2 Persistence
+#+AUTHOR: Minoru Natsutani
+#+LANGUAGE: ja
+
+Chapter2 Persistence
+* Lists
+** Listの連結
+xsをコピーして、ysはそのまま使う。
+
+連結前
+#+ATTR_HTML: style="float:left;"
+[[file:fig2.5.before.png]]
+
+連結後
+#+ATTR_HTML: align="left"
+[[file:fig2.5.after.png]]
+
+操作はO(n)
+
+ソース
+#+BEGIN_SRC sml
+let rec (++) xs ys =
+  match xs with
+    | ( head :: tail ) -> head :: (tail ++ ys)
+    | _ -> ys
+
+let x = 0 :: 1 :: 2 :: []
+let y = 3 :: 4 :: 5 :: []
+
+let z = x ++ y
+
+#+END_SRC
+
+** List の更新
+変更する前のセルまでをコピーし、新しい値をconsし、残りはそのまま使う。
+連結前
+#+ATTR_HTML: style="float:left;"
+[[file:fig2.7.before.png]]
+
+連結後
+#+ATTR_HTML: align="left"
+[[file:fig2.7.after.png]]
+
+
+
+#+BEGIN_SRC sml
+let rec update x i y =
+    match (x, i, y) with
+        | (x :: xs, 0, y) -> y :: xs
+        | (x :: xs, i, y) -> x :: update xs (i - 1) y
+#+END_SRC
+
+** Exersice 2.1
+Write a function suffixes of type α list -> α list list that takes
+a list xs and returns a list of all the suffixes of xs in decreasing
+order of length.
+
+suffixes [1,2,3,4] = [[1,2,3,4], [2,3,4], [3,4], [4\], []]
+
+#+BEGIN_SRC sml
+let rec suffixes l =
+    match l with
+        | (x :: xs) -> l :: suffixes xs 
+        | _ -> [[]]                     
+
+suffixes (1 :: 2 :: 3 :: 4 :: [])
+> val it : int list list = [[1; 2; 3; 4]; [2; 3; 4]; [3; 4]; [4]; []]
+#+END_SRC
+
+* Binary Search Trees
+** 定義
+#+BEGIN_SRC sml
+type Tree<'T> =
+  | Empty
+  | Node of 'T * Tree<'T> * Tree<'T>
+#+END_SRC
+
+** 検索
+#+BEGIN_SRC sml
+let rec tree_member tree x =
+  match tree with
+    | Empty -> false
+    | Node (y, a, b) ->
+        match x with
+          | _ when y > x -> tree_member a x
+          | _ when y < x -> tree_member b x
+          | _ -> true
+#+END_SRC
+
+** 挿入
+[[file:fig2.8.before.png]]
+[[file:fig2.8.after.png]]
+
+#+BEGIN_SRC sml
+let rec insert tree x =
+  match tree with
+    | Empty -> Node(x, Empty, Empty)
+    | Node (y, a, b) ->
+      match x with
+        | _ when x < y -> Node(y, (insert a x) , b)
+        | _ when x > y -> Node(y, a, (insert b x))
+        | _ -> Node(y, a, b)
+#+END_SRC
+
+** Exersice 2.2
+In the worst case, member performs approximately 2d comparisons,
+where d is the depth of the tree. Rewrite member to take no more than
+d + 1 comparisons by keeping track of a candidate element that might
+be equal to the query element (say, the last element for which <
+returned false or <= returned true) and checking for equality only
+when you hit the bottom of the tree.
+
+ワーストケースで、 member は約 2d 回の比較を行う。d はツリーの深さであ
+る。 クエリーエレメントと同じであろう候補のエレメントのトラック
+を保ちながら、member 関数を d+1 回以上の比較をしないようにを書き直せ。　 
+（＜が偽を返し、もしくは、<=が真を返す最後のエレメントの事）
+
+

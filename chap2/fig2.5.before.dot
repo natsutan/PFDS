@@ -1,0 +1,24 @@
+digraph {
+  graph [rankdir = LR]; // 横向き
+  graph [size="3,0 5.0"]	
+
+  xs0 [shape = plaintext, label = "xs"]
+  xs1 [shape = record, label = "{0|*}"]
+  xs2 [shape = record, label = "{1|*}"]
+  xs3 [shape = record, label = "{2|[]}"]
+  
+  xs0:cdr -> xs1:car;  
+  xs1:cdr -> xs2:car;  
+  xs2:cdr -> xs3:car;  
+
+  ys0 [shape = plaintext, label = "ys"]
+  ys1 [shape = record, label = "{3|*}"]
+  ys2 [shape = record, label = "{4|*}"]
+  ys3 [shape = record, label = "{5|[]}"]
+  
+  ys0:cdr -> ys1:car;  
+  ys1:cdr -> ys2:car;  
+  ys2:cdr -> ys3:car;  
+
+
+}

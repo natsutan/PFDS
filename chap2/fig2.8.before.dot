@@ -1,0 +1,24 @@
+digraph {
+  graph [size="4.0 7.0"]	
+
+  xs [shape = plaintext, label = "xs"]
+  xsa [shape = circle, label = "a"]
+  xsb [shape = circle, label = "b"]
+  xsc [shape = circle, label = "c"]
+  xsd [shape = circle, label = "d"]
+  xsf [shape = circle, label = "f"]
+  xsg [shape = circle, label = "g"]
+  xsh [shape = circle, label = "h"]
+
+  xs -> xsd;
+  xsd -> xsb;
+  xsd -> xsg;
+  xsb -> xsa;
+  xsb -> xsc;
+  xsg -> xsf;
+  xsg -> xsh;
+
+}
+
+
+
