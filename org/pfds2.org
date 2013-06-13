@@ -9,11 +9,11 @@ xsをコピーして、ysはそのまま使う。
 
 連結前
 #+ATTR_HTML: style="float:left;"
-[[file:fig2.5.before.png]]
+[[file:img/fig2.5.before.png]]
 
 連結後
 #+ATTR_HTML: align="left"
-[[file:fig2.5.after.png]]
+[[file:img/fig2.5.after.png]]
 
 操作はO(n)
 
@@ -35,11 +35,11 @@ let z = x ++ y
 変更する前のセルまでをコピーし、新しい値をconsし、残りはそのまま使う。
 連結前
 #+ATTR_HTML: style="float:left;"
-[[file:fig2.7.before.png]]
+[[file:img/fig2.7.before.png]]
 
 連結後
 #+ATTR_HTML: align="left"
-[[file:fig2.7.after.png]]
+[[file:img/fig2.7.after.png]]
 
 
 
@@ -74,7 +74,7 @@ type Tree<'T> =
   | Empty
   | Node of 'T * Tree<'T> * Tree<'T>
 #+END_SRC
-
+   
 ** 検索
 #+BEGIN_SRC sml
 let rec tree_member tree x =
@@ -88,8 +88,8 @@ let rec tree_member tree x =
 #+END_SRC
 
 ** 挿入
-[[file:fig2.8.before.png]]
-[[file:fig2.8.after.png]]
+[[file:img/fig2.8.before.png]]
+[[file:img/fig2.8.after.png]]
 
 #+BEGIN_SRC sml
 let rec insert tree x =
@@ -115,4 +115,13 @@ when you hit the bottom of the tree.
 を保ちながら、member 関数を d+1 回以上の比較をしないようにを書き直せ。　 
 （＜が偽を返し、もしくは、<=が真を返す最後のエレメントの事）
 
-
+#+BEGIN_SRC scheme
+(define member
+  (lambda (n v)
+    (if (eq? n #f)
+        #f
+        (let ((nv (node n)))
+          (cond  ((eq? nv v) #t)
+                 ((< nv v) (member (right n) v))
+                 (else (member (left n) v)))))))
+#+END_SRC
