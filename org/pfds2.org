@@ -74,7 +74,7 @@ type Tree<'T> =
   | Empty
   | Node of 'T * Tree<'T> * Tree<'T>
 #+END_SRC
-
+   
 ** 検索
 #+BEGIN_SRC sml
 let rec tree_member tree x =
@@ -122,4 +122,13 @@ let rec tree_member2 tree x =
 #+END_SRC
 
 
-
+#+BEGIN_SRC scheme
+(define member
+  (lambda (n v)
+    (if (eq? n #f)
+        #f
+        (let ((nv (node n)))
+          (cond  ((eq? nv v) #t)
+                 ((< nv v) (member (right n) v))
+                 (else (member (left n) v)))))))
+#+END_SRC
