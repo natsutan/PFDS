@@ -12,6 +12,16 @@ let rec tree_member tree x =
           | _ when y < x -> tree_member b x
           | _ -> true
 
+let rec tree_member2 tree x =
+  match tree with
+    | Empty -> false
+    | Node (y, Empty, Empty) -> x = y
+    | Node (y, a, b) ->
+        match x with
+          | _ when y > x -> tree_member2 a x
+          | _ -> tree_member2 b x
+
+
 let rec insert tree x =
   match tree with
     | Empty -> Node(x, Empty, Empty)
@@ -30,6 +40,6 @@ let xs = Node('d',
                    Node('f', Empty, Empty),
                    Node('h', Empty, Empty)))
                                   
-tree_member xs 'e'
+tree_member2 xs 'a'
 
 insert xs 'e'
