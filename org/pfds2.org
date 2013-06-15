@@ -9,11 +9,11 @@ xsをコピーして、ysはそのまま使う。
 
 連結前
 #+ATTR_HTML: style="float:left;"
-[[file:fig2.5.before.png]]
+[[file:img/fig2.5.before.png]]
 
 連結後
 #+ATTR_HTML: align="left"
-[[file:fig2.5.after.png]]
+[[file:img/fig2.5.after.png]]
 
 操作はO(n)
 
@@ -35,11 +35,11 @@ let z = x ++ y
 変更する前のセルまでをコピーし、新しい値をconsし、残りはそのまま使う。
 連結前
 #+ATTR_HTML: style="float:left;"
-[[file:fig2.7.before.png]]
+[[file:img/fig2.7.before.png]]
 
 連結後
 #+ATTR_HTML: align="left"
-[[file:fig2.7.after.png]]
+[[file:img/fig2.7.after.png]]
 
 
 
@@ -88,8 +88,8 @@ let rec tree_member tree x =
 #+END_SRC
 
 ** 挿入
-[[file:fig2.8.before.png]]
-[[file:fig2.8.after.png]]
+[[file:img/fig2.8.before.png]]
+[[file:img/fig2.8.after.png]]
 
 #+BEGIN_SRC sml
 let rec insert tree x =
@@ -110,9 +110,16 @@ be equal to the query element (say, the last element for which <
 returned false or <= returned true) and checking for equality only
 when you hit the bottom of the tree.
 
-ワーストケースで、 member は約 2d 回の比較を行う。d はツリーの深さであ
-る。 クエリーエレメントと同じであろう候補のエレメントのトラック
-を保ちながら、member 関数を d+1 回以上の比較をしないようにを書き直せ。　 
-（＜が偽を返し、もしくは、<=が真を返す最後のエレメントの事）
+#+BEGIN_SRC SML
+let rec tree_member2 tree x =
+  match tree with
+    | Empty -> false
+    | Node (y, Empty, Empty) -> x = y
+    | Node (y, a, b) ->
+        match x with
+          | _ when y > x -> tree_member2 a x
+          | _ -> tree_member2 b x
+#+END_SRC
+
 
 
